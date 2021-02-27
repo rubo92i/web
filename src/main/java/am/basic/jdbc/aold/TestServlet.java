@@ -1,4 +1,4 @@
-package am.basic.jdbc.controller;
+package am.basic.jdbc.aold;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

@@ -23,14 +23,14 @@ public class UserRepositoryImpl implements UserRepository {
             Connection connection = DataSource.getConnection();
             PreparedStatement pstmt = null;
 
-            pstmt = connection.prepareStatement("INSERT INTO user(name,surname,username,password) values(?,?,?,?) ");
+            pstmt = connection.prepareStatement("INSERT INTO user(name,surname,username,password,status) values(?,?,?,?,?) ");
 
 
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getSurname());
             pstmt.setString(3, user.getUsername());
             pstmt.setString(4, user.getPassword());
-
+            pstmt.setInt(5, user.getStatus());
             int result = pstmt.executeUpdate();
 
             log.error("query was executed {} rows were affected", result);
@@ -44,13 +44,14 @@ public class UserRepositoryImpl implements UserRepository {
     public void update(User user) {
         try {
             Connection connection = DataSource.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement("UPDATE user set name = ? ,surname = ?, username = ?, password = ? where id = ? ");
+            PreparedStatement pstmt = connection.prepareStatement("UPDATE user set name = ? ,surname = ?, username = ?, password = ? ,status = ?  where id = ? ");
 
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getSurname());
             pstmt.setString(3, user.getUsername());
             pstmt.setString(4, user.getPassword());
-            pstmt.setLong(5, user.getId());
+            pstmt.setInt(5, user.getStatus());
+            pstmt.setLong(6, user.getId());
             int result = pstmt.executeUpdate();
 
             log.error("query was executed {} rows were affected", result);
@@ -115,7 +116,7 @@ public class UserRepositoryImpl implements UserRepository {
             resultSet.close();
             preparedStatement.close();
         } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
+           throw new RuntimeException(exception);
         }
 
         return user;
@@ -151,6 +152,7 @@ public class UserRepositoryImpl implements UserRepository {
         user.setSurname(resultSet.getString("surname"));
         user.setUsername(resultSet.getString("username"));
         user.setPassword(resultSet.getString("password"));
+        user.setStatus(resultSet.getInt("status"));
         return user;
     }
 }

@@ -1,4 +1,4 @@
-package am.basic.jdbc.controller;
+package am.basic.jdbc.aold;
 
 import am.basic.jdbc.model.User;
 import am.basic.jdbc.repository.UserRepository;
