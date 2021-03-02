@@ -31,8 +31,9 @@ public class SignUpServlet extends HttpServlet {
 
         try {
             userService.signUp(user);
-            req.setAttribute("message", "You have successfully registered, please sign in");
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            req.setAttribute("message", "You have successfully registered, please verify");
+            req.setAttribute("username", user.getUsername());
+            req.getRequestDispatcher("/verification.jsp").forward(req, resp);
         } catch (DuplicateDataException duplicateDataException) {
             req.setAttribute("message", "User with such username already exists");
             req.getRequestDispatcher("/sign-up.jsp").forward(req, resp);
