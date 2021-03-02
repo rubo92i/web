@@ -9,12 +9,13 @@
 <body>
 
 <%
-    if (request.getAttribute("user") == null){
+
+    if (session.getAttribute("user") == null){
         request.setAttribute("message","Please sign in for first");
         request.getRequestDispatcher("/index.jsp").forward(request,response);
     }
 %>
 
-        Hello dear <%=JspUtils.getAttribute(request, "user", User.class)%>;
+        Hello dear <%=session.getAttribute("user")%>;
 </body>
 </html>

@@ -30,7 +30,8 @@ public class LoginServlet extends HttpServlet {
         try {
 
             User user = userService.signIn(username, password);
-            req.setAttribute("user", user);
+            req.getSession().setAttribute("user",user);
+            req.getSession().setMaxInactiveInterval(500000);
             req.getRequestDispatcher("/pages/home.jsp").forward(req, resp);
 
         } catch (NotFoundException exception) {
