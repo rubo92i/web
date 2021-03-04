@@ -15,10 +15,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/start")
+public class StartServlet extends HttpServlet {
 
     private final UserService userService = new UserServiceImpl(new UserRepositoryImpl());
 
@@ -26,23 +27,38 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        String username;
+        String password ;
 
+        HttpSession session = req.getSession();
 
-        String username = req.getParameter("user-i-name");
-        String password = req.getParameter("user-i-pass");
-        String remember = req.getParameter("remember");
+        if (session.getAttribute("user") != null){
+            User user = (User) session.getAttribute("user");
+            username = user.getUsername();
+            password = user.getPassword();
+        }else {
+            username = CookieUtil.getCookieValue("username",req);
+            password = Encryption.decrypt(CookieUtil.getCookieValue("password",req));
+        }
 
         try {
 
-            User user = userService.signIn(username, password);
-            if (remember!= null){
+
+
+
+            if (username != null && password != null){
+                User user = userService.signIn(username, password);
+
                 CookieUtil.setCookieValue("username",username,18000,resp);
                 CookieUtil.setCookieValue("password", Encryption.encrypt(password),18000,resp);
+
+                req.getSession().setAttribute("user",user);
+                req.getSession().setMaxInactiveInterval(500000);
+                req.getRequestDispatcher("/pages/home.jsp").forward(req, resp);
+            }else {
+                resp.sendRedirect("/index.jsp");
             }
 
-            req.getSession().setAttribute("user",user);
-            req.getSession().setMaxInactiveInterval(500000);
-            req.getRequestDispatcher("/pages/home.jsp").forward(req, resp);
 
         } catch (NotFoundException exception) {
             req.setAttribute("message", exception.getMessage());

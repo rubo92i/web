@@ -14,6 +14,7 @@
 <form action="/login" method="post">
     Username <input type="text" name="user-i-name"> <br/>
     Password <input type="password" name="user-i-pass"><br/>
+    Remember <input type="checkbox" name="remember">
     <input type="submit" name="Sign in" value="Sign in">
 </form>
 

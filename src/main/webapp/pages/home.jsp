@@ -7,7 +7,7 @@
     <title>Home</title>
 </head>
 <body>
-
+                                                        <a style="margin-right: auto" href="/logout">Logout</a>
 <%
 
     if (session.getAttribute("user") == null){
