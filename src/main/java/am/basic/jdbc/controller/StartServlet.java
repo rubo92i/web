@@ -54,7 +54,7 @@ public class StartServlet extends HttpServlet {
 
                 req.getSession().setAttribute("user",user);
                 req.getSession().setMaxInactiveInterval(500000);
-                req.getRequestDispatcher("/pages/home.jsp").forward(req, resp);
+                req.getRequestDispatcher("/secure/home.jsp").forward(req, resp);
             }else {
                 resp.sendRedirect("/index.jsp");
             }

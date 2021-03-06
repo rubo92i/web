@@ -16,4 +16,6 @@ public interface UserService {
 
     void resend(String username) throws NotFoundException;
 
+    void changePassword(String username, String oldPassword, String newPassword) throws ForbiddenException, NotFoundException;
+
 }
