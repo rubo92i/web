@@ -1,52 +1,91 @@
 package am.basic.jdbc;
 
-import am.basic.jdbc.model.User;
-import am.basic.jdbc.repository.UserRepository;
-import am.basic.jdbc.repository.impl.UserRepositoryImpl;
-import am.basic.jdbc.util.DataSource;
 
-import java.sql.Connection;
+import am.basic.jdbc.model.Comment;
+import am.basic.jdbc.model.User;
+import am.basic.jdbc.util.DataSource;
+import com.google.common.base.CaseFormat;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Main {
 
 
-    public static void main(String[] args) throws SQLException, InterruptedException {
-        UserRepository userRepository = new UserRepositoryImpl();
-        User user = userRepository.getByUsername("ruben.manukyan");
-        // System.out.println(user);
-        user.setPassword("newPassword");
-        userRepository.update(user);
-
-        user = userRepository.getByUsername("ruben.manukyan");
-
-        Connection connection = DataSource.getConnection();
-        connection.setAutoCommit(false);
-        connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-        connection.setReadOnly(true);
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE user set name = 'Karen' WHERE id = 2");
-
-            preparedStatement.executeUpdate();
-            System.out.println("Query was executed");
+    public static void main(String[] args) throws SQLException, InterruptedException, IllegalAccessException, NoSuchMethodException, InstantiationException, InvocationTargetException {
+        User user = new User();
+        user.setName("Ruben");
+        user.setSurname("Manukyan");
+        user.setUsername("dfsdf");
 
 
-            preparedStatement = connection.prepareStatement("UPDATE user set name = 'Chxangarox' WHERE id = 1 ");
+        Annotation[] annotations = user.getClass().getDeclaredAnnotations();
+        for (Annotation annotation : annotations) {
+            System.out.println(annotation.annotationType().getName() + annotation.annotationType().getSimpleName());
+        }
+        Comment comment = new Comment();
+        comment.setContent("TestContent");
+        comment.setTitle("Test Title");
 
-            preparedStatement.executeUpdate();
+        printObject(user);
+        printObject(comment);
+
+        System.out.println(generateInsertQuery(user));
+
+        System.out.println(generateInsertQuery(comment));
+
+    }
 
 
-            connection.commit();
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            connection.rollback();
+    public static void printObject(Object o) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException {
+        Class clazz = o.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+        System.out.print(clazz.getSimpleName() + " [ ");
+
+        for (Field field : fields) {
+            field.setAccessible(true);
+            System.out.print(field.getName() + " : " + field.get(o) + ", ");
+        }
+        System.out.println(" ]");
+
+        Constructor constructor = clazz.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        Object a = constructor.newInstance();
+
+        Method method = clazz.getDeclaredMethod("toString");
+        System.out.println(method.invoke(a));
+    }
+
+
+    public static String generateInsertQuery(Object object) throws SQLException, IllegalAccessException {
+
+        Class clazz = object.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+        String insert = " INSERT INTO " + clazz.getSimpleName().toLowerCase() + "(";
+        for (int i = 0; i < fields.length - 1; i++) {
+            insert += CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, fields[i].getName()) + ", ";
         }
 
+        insert += CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, fields[fields.length - 1].getName()) + " )";
+        insert += " VALUES( ";
+        for (int i = 0; i < fields.length - 1; i++) {
+            insert += "?, ";
+        }
+        insert += "? ) ;";
 
 
-         //  System.out.println(user);
+        PreparedStatement preparedStatement = DataSource.getConnection().prepareStatement(insert);
+        for (int i = 1; i <= fields.length; i++) {
+            fields[i - 1].setAccessible(true);
+            preparedStatement.setObject(i, fields[i - 1].get(object));
+        }
 
-        // System.out.println("Hello world");
+         preparedStatement.executeUpdate();
+        return insert;
     }
 }
