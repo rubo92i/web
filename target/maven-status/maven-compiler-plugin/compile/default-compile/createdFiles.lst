@@ -3,6 +3,7 @@ am\basic\jdbc\controller\CommentAddServlet.class
 am\basic\jdbc\controller\LogoutServlet.class
 am\basic\jdbc\filter\LogingFilter.class
 am\basic\jdbc\controller\SignUpServlet.class
+am\basic\jdbc\controller\ChangePasswordServlet.class
 am\basic\jdbc\controller\ResendServlet.class
 am\basic\jdbc\model\excpetion\NotFoundException.class
 am\basic\jdbc\repository\impl\UserRepositoryImpl.class

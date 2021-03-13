@@ -15,6 +15,7 @@ C:\Users\ruben.manukyan\IdeaProjects\lddm\web\src\main\java\am\basic\jdbc\model\
 C:\Users\ruben.manukyan\IdeaProjects\lddm\web\src\main\java\am\basic\jdbc\controller\LogoutServlet.java
 C:\Users\ruben.manukyan\IdeaProjects\lddm\web\src\main\java\am\basic\jdbc\service\impl\UserServiceImpl.java
 C:\Users\ruben.manukyan\IdeaProjects\lddm\web\src\main\java\am\basic\jdbc\util\CookieUtil.java
+C:\Users\ruben.manukyan\IdeaProjects\lddm\web\src\main\java\am\basic\jdbc\controller\ChangePasswordServlet.java
 C:\Users\ruben.manukyan\IdeaProjects\lddm\web\src\main\java\am\basic\jdbc\controller\StartServlet.java
 C:\Users\ruben.manukyan\IdeaProjects\lddm\web\src\main\java\am\basic\jdbc\util\JspUtils.java
 C:\Users\ruben.manukyan\IdeaProjects\lddm\web\src\main\java\am\basic\jdbc\service\impl\CommentServiceImpl.java

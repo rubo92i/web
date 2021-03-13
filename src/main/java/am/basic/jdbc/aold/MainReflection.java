@@ -1,4 +1,4 @@
-package am.basic.jdbc;
+package am.basic.jdbc.aold;
 
 
 import am.basic.jdbc.model.Comment;
@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class Main {
+public class MainReflection {
 
 
     public static void main(String[] args) throws SQLException, InterruptedException, IllegalAccessException, NoSuchMethodException, InstantiationException, InvocationTargetException {
