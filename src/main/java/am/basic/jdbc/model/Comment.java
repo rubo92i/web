@@ -2,10 +2,7 @@ package am.basic.jdbc.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -20,6 +17,7 @@ public class Comment {
 
     private String content;
 
+    @Column(name = "user_id")
     private long userId;
 
 

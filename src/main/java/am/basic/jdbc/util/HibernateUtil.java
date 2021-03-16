@@ -1,6 +1,8 @@
 package am.basic.jdbc.util;
 
-import am.basic.jdbc.model.Comment;
+import am.basic.jdbc.model.Card;
+import am.basic.jdbc.model.*;
+import am.basic.jdbc.model.Role;
 import am.basic.jdbc.model.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -35,6 +37,8 @@ public class HibernateUtil {
             MetadataSources metadataSources = new MetadataSources(serviceRegistry);
             metadataSources.addAnnotatedClass(User.class);
             metadataSources.addAnnotatedClass(Comment.class);
+            metadataSources.addAnnotatedClass(Card.class);
+            metadataSources.addAnnotatedClass(Role.class);
             Metadata metadata = metadataSources.buildMetadata();
 
             sessionFactory = metadata.getSessionFactoryBuilder().build();

@@ -1,6 +1,6 @@
 package am.basic.jdbc.repository;
 
-import am.basic.jdbc.model.Comment;
+import am.basic.jdbc.model.*;
 
 import java.util.List;
 

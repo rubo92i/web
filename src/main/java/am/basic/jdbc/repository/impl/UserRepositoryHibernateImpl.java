@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UserRepositoryHibernateImpl implements UserRepository {
 
-    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
 
     @Override

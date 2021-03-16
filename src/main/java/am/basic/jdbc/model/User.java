@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,6 +22,7 @@ public class User {
 
     private String surname;
 
+    @Column(unique = true)
     private String username;
 
     private String password;
@@ -31,6 +30,19 @@ public class User {
     private String code;
 
     private int status;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "card_id",referencedColumnName = "id")
+    private Card card;
+
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//    @JoinColumn(name = "user_id",referencedColumnName = "id")
+//    private List<Comment> comment;
+
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles;
 
 
 }
