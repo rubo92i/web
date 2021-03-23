@@ -1,4 +1,4 @@
-package am.basic.jdbc;
+package am.basic.jdbc.aold;
 
 import am.basic.jdbc.model.Card;
 import am.basic.jdbc.model.Role;

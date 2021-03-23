@@ -3,18 +3,17 @@ package am.basic.jdbc.service.impl;
 import am.basic.jdbc.model.Comment;
 import am.basic.jdbc.repository.CommentRepository;
 import am.basic.jdbc.service.CommentService;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class CommentServiceImpl implements CommentService {
 
 
-    private final CommentRepository commentRepository;
+    private CommentRepository commentRepository;
 
 
-    public CommentServiceImpl(CommentRepository commentRepository) {
-        this.commentRepository = commentRepository;
-    }
 
 
     @Override

@@ -18,7 +18,7 @@ import java.util.List;
 @WebServlet("/secure/comments")
 public class CommentServlet extends HttpServlet {
 
-    private final CommentService commentService = new CommentServiceImpl(new CommentRepositoryImpl());
+    private final CommentService commentService = new CommentServiceImpl( );
 
 
     @Override

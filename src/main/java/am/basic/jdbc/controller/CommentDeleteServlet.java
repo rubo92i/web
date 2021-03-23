@@ -18,7 +18,7 @@ import java.util.List;
 @WebServlet("/secure/comments/delete")
 public class CommentDeleteServlet extends HttpServlet {
 
-    private final CommentService commentService = new CommentServiceImpl(new CommentRepositoryImpl());
+    private final CommentService commentService = new CommentServiceImpl( );
 
 
     @Override

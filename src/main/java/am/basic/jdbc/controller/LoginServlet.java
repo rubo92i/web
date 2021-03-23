@@ -4,7 +4,7 @@ package am.basic.jdbc.controller;
 import am.basic.jdbc.model.User;
 import am.basic.jdbc.model.excpetion.ForbiddenException;
 import am.basic.jdbc.model.excpetion.NotFoundException;
-import am.basic.jdbc.repository.impl.UserRepositoryImpl;
+import am.basic.jdbc.repository.impl.UserRepositoryHibernateImpl;
 import am.basic.jdbc.service.UserService;
 import am.basic.jdbc.service.impl.UserServiceImpl;
 import am.basic.jdbc.util.CookieUtil;
@@ -20,7 +20,7 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    private final UserService userService = new UserServiceImpl(new UserRepositoryImpl());
+    private final UserService userService = new UserServiceImpl(new UserRepositoryHibernateImpl());
 
 
     @Override

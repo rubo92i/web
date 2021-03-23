@@ -13,6 +13,19 @@ import java.util.List;
 
 public class CommentRepositoryImpl implements CommentRepository {
 
+
+
+
+    public void onInit(){
+        System.out.println("CommentRepositoryImpl initialized");
+    }
+
+
+    public void onDestroy(){
+        System.out.println("CommentRepositoryImpl initialized");
+    }
+
+
     @Override
     public void add(Comment comment) {
         try {

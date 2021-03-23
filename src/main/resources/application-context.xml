@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+
+default-init-method="onInit" default-destroy-method="onDestroy" default-lazy-init="true">
+
+    <bean name="commentRepository"
+          class="am.basic.jdbc.repository.impl.CommentRepositoryImpl"
+          init-method="onInit" destroy-method="onDestroy" lazy-init="false"/>
+
+    <bean name="commentService" class="am.basic.jdbc.service.impl.CommentServiceImpl" lazy-init="true">
+        <property name="commentRepository" ref="commentRepository"/>
+    </bean>
+
+
+    <bean name="userRepositoryHibernate" class="am.basic.jdbc.repository.impl.UserRepositoryHibernateImpl"
+          scope="singleton"/>
+
+    <bean name="userRepository" class="am.basic.jdbc.repository.impl.UserRepositoryImpl" scope="prototype"/>
+
+
+
+
+    <bean name="userService" class="am.basic.jdbc.service.impl.UserServiceImpl">
+        <constructor-arg name="userRepository" ref="userRepository"/>
+    </bean>
+
+
+    <bean name="userService2" class="am.basic.jdbc.service.impl.UserServiceImpl" scope="prototype">
+        <constructor-arg name="userRepository" ref="userRepositoryHibernate"/>
+    </bean>
+
+
+
+</beans>
