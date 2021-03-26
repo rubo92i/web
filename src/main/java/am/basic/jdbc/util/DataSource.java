@@ -3,7 +3,7 @@ package am.basic.jdbc.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class DataSource {
+public class DataSource  {
 
 
     private static Connection connection;

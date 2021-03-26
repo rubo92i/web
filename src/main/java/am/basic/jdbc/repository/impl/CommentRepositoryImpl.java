@@ -2,8 +2,9 @@ package am.basic.jdbc.repository.impl;
 
 import am.basic.jdbc.model.Comment;
 import am.basic.jdbc.repository.CommentRepository;
-import am.basic.jdbc.util.DataSource;
+ import lombok.Data;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class CommentRepositoryImpl implements CommentRepository {
 
 
@@ -25,11 +27,12 @@ public class CommentRepositoryImpl implements CommentRepository {
         System.out.println("CommentRepositoryImpl initialized");
     }
 
+    private DataSource dataSource;
 
     @Override
     public void add(Comment comment) {
         try {
-            Connection connection = DataSource.getConnection();
+            Connection connection = dataSource.getConnection();
             PreparedStatement pstmt = null;
 
             pstmt = connection.prepareStatement("INSERT INTO comment(title,content,user_id) values(?,?,?) ");
@@ -49,7 +52,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     @Override
     public void update(Comment comment) {
         try {
-            Connection connection = DataSource.getConnection();
+            Connection connection = dataSource.getConnection();
             PreparedStatement pstmt = connection.prepareStatement("UPDATE comment set title = ? ,content = ?, user_id = ?  where id = ? ");
 
             pstmt.setString(1, comment.getTitle());
@@ -68,7 +71,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     public void delete(long id) {
 
         try {
-            Connection connection = DataSource.getConnection();
+            Connection connection = dataSource.getConnection();
             PreparedStatement pstmt = connection.prepareStatement("DELETE  FROM comment  where id = ?");
             pstmt.setLong(1, id);
 
@@ -86,7 +89,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     public List<Comment> getByUserId(long userId) {
         List<Comment> comments = new ArrayList<>();
         try {
-            Connection connection = DataSource.getConnection();
+            Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM comment WHERE user_id = ?");
             preparedStatement.setLong(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -110,7 +113,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     public List<Comment> getAll() {
         List<Comment> comments = new ArrayList<>();
         try {
-            Connection connection = DataSource.getConnection();
+            Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM comment");
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -131,7 +134,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     public void deleteByIdAndUserId(long commentId, long userId) {
 
         try {
-            Connection connection = DataSource.getConnection();
+            Connection connection = dataSource.getConnection();
             PreparedStatement pstmt = connection.prepareStatement("DELETE  FROM comment  where id = ? and user_id = ?");
             pstmt.setLong(1, commentId);
             pstmt.setLong(2, userId);

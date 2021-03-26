@@ -3,11 +3,17 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 
-default-init-method="onInit" default-destroy-method="onDestroy" default-lazy-init="true">
+       default-init-method="onInit" default-destroy-method="onDestroy" default-lazy-init="true">
+
+
+    <import resource="spring-beans.xml"/>
+
 
     <bean name="commentRepository"
           class="am.basic.jdbc.repository.impl.CommentRepositoryImpl"
-          init-method="onInit" destroy-method="onDestroy" lazy-init="false"/>
+          init-method="onInit" destroy-method="onDestroy" lazy-init="false">
+        <property name="dataSource" ref="datasource"/>
+    </bean>
 
     <bean name="commentService" class="am.basic.jdbc.service.impl.CommentServiceImpl" lazy-init="true">
         <property name="commentRepository" ref="commentRepository"/>
@@ -15,11 +21,11 @@ default-init-method="onInit" default-destroy-method="onDestroy" default-lazy-ini
 
 
     <bean name="userRepositoryHibernate" class="am.basic.jdbc.repository.impl.UserRepositoryHibernateImpl"
-          scope="singleton"/>
+          scope="singleton">
+        <property name="name" value="Hibernate implementation of user repository"/>
+    </bean>
 
     <bean name="userRepository" class="am.basic.jdbc.repository.impl.UserRepositoryImpl" scope="prototype"/>
-
-
 
 
     <bean name="userService" class="am.basic.jdbc.service.impl.UserServiceImpl">
@@ -30,6 +36,7 @@ default-init-method="onInit" default-destroy-method="onDestroy" default-lazy-ini
     <bean name="userService2" class="am.basic.jdbc.service.impl.UserServiceImpl" scope="prototype">
         <constructor-arg name="userRepository" ref="userRepositoryHibernate"/>
     </bean>
+
 
 
 
