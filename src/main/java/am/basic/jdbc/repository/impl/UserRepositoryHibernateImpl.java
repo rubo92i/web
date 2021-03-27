@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Data
@@ -51,18 +52,18 @@ public class UserRepositoryHibernateImpl implements UserRepository {
 
 
     @Override
-    public User getByUsername(String username) {
+    public Optional<User> getByUsername(String username) {
         NativeQuery<User> query = sessionFactory.openSession()
-                .createNativeQuery("SELECT * FROM user WHERE username = :nameik",User.class);
+                .createNativeQuery("SELECT * FROM user WHERE username = :nameik", User.class);
         query.setParameter("nameik", username);
-        return query.getSingleResult();
+        return Optional.ofNullable(query.getSingleResult());
     }
 
     @Override
     public List<User> getAll() {
         return sessionFactory
                 .openSession()
-                .createNativeQuery("SELECT  * FROM user",User.class)
+                .createNativeQuery("SELECT  * FROM user", User.class)
                 .getResultList();
     }
 }

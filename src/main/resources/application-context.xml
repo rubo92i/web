@@ -37,6 +37,10 @@
         <constructor-arg name="userRepository" ref="userRepositoryHibernate"/>
     </bean>
 
+    <bean name="commentRepositoryJdbcTemplate" class="am.basic.jdbc.repository.impl.CommentRepositoryJdbcTemplateImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <property name="namedParameterJdbcTemplate" ref="namedJdbcTemplate"/>
+    </bean>
 
 
 

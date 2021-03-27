@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Log4j2
@@ -103,7 +104,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getByUsername(String username) {
+    public Optional<User> getByUsername(String username) {
         User user = null;
         try {
             Connection connection = DataSource.getConnection();
@@ -121,7 +122,7 @@ public class UserRepositoryImpl implements UserRepository {
             throw new RuntimeException(exception);
         }
 
-        return user;
+        return Optional.ofNullable(user);
     }
 
 

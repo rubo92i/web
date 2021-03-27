@@ -3,6 +3,7 @@ package am.basic.jdbc.repository;
 import am.basic.jdbc.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository {
 
@@ -15,7 +16,7 @@ public interface UserRepository {
 
     User getById(long id);
 
-    User getByUsername(String username);
+    Optional<User> getByUsername(String username);
 
     List<User> getAll();
 

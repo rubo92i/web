@@ -20,7 +20,7 @@ public class HelloServlet extends HttpServlet {
         String param = req.getParameter("username");
 
         UserRepository userRepository = new UserRepositoryImpl();
-        User user = userRepository.getByUsername(param);
+        User user = userRepository.getByUsername(param).get();
         resp.getWriter().println("Hello world from back end  user : " + user);
     }
 
