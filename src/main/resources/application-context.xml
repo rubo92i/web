@@ -1,47 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
 
        default-init-method="onInit" default-destroy-method="onDestroy" default-lazy-init="true">
 
 
     <import resource="spring-beans.xml"/>
 
+    <context:component-scan base-package="am.basic.jdbc.*"/>
+    <tx:annotation-driven/>
 
-    <bean name="commentRepository"
-          class="am.basic.jdbc.repository.impl.CommentRepositoryImpl"
-          init-method="onInit" destroy-method="onDestroy" lazy-init="false">
-        <property name="dataSource" ref="datasource"/>
-    </bean>
+<!--    -->
+<!--    -->
+<!--    <bean name="commentRepository"-->
+<!--          class="am.basic.jdbc.repository.impl.CommentRepositoryImpl"-->
+<!--          init-method="onInit" destroy-method="onDestroy" lazy-init="false">-->
+<!--        <property name="dataSource" ref="datasource"/>-->
+<!--    </bean>-->
 
-    <bean name="commentService" class="am.basic.jdbc.service.impl.CommentServiceImpl" lazy-init="true">
-        <property name="commentRepository" ref="commentRepository"/>
-    </bean>
-
-
-    <bean name="userRepositoryHibernate" class="am.basic.jdbc.repository.impl.UserRepositoryHibernateImpl"
-          scope="singleton">
-        <property name="name" value="Hibernate implementation of user repository"/>
-    </bean>
-
-    <bean name="userRepository" class="am.basic.jdbc.repository.impl.UserRepositoryImpl" scope="prototype"/>
+<!--    <bean name="commentService" class="am.basic.jdbc.service.impl.CommentServiceImpl" lazy-init="true">-->
+<!--        <property name="commentRepository" ref="commentRepository"/>-->
+<!--    </bean>-->
 
 
-    <bean name="userService" class="am.basic.jdbc.service.impl.UserServiceImpl">
-        <constructor-arg name="userRepository" ref="userRepository"/>
-    </bean>
+<!--    <bean name="userRepositoryHibernate" class="am.basic.jdbc.repository.impl.UserRepositoryHibernateImpl"-->
+<!--          scope="singleton">-->
+<!--        <property name="name" value="Hibernate implementation of user repository"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="userRepository" class="am.basic.jdbc.repository.impl.UserRepositoryImpl" scope="prototype"/>-->
 
 
-    <bean name="userService2" class="am.basic.jdbc.service.impl.UserServiceImpl" scope="prototype">
-        <constructor-arg name="userRepository" ref="userRepositoryHibernate"/>
-    </bean>
+<!--    <bean name="userService" class="am.basic.jdbc.service.impl.UserServiceImpl">-->
+<!--        <constructor-arg name="userRepository" ref="userRepository"/>-->
+<!--    </bean>-->
 
-    <bean name="commentRepositoryJdbcTemplate" class="am.basic.jdbc.repository.impl.CommentRepositoryJdbcTemplateImpl">
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
-        <property name="namedParameterJdbcTemplate" ref="namedJdbcTemplate"/>
-    </bean>
 
+<!--    <bean name="userService2" class="am.basic.jdbc.service.impl.UserServiceImpl" scope="prototype">-->
+<!--        <constructor-arg name="userRepository" ref="userRepositoryHibernate"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="commentRepositoryJdbcTemplate" class="am.basic.jdbc.repository.impl.CommentRepositoryJdbcTemplateImpl">-->
+<!--        <property name="jdbcTemplate" ref="jdbcTemplate"/>-->
+<!--        <property name="namedParameterJdbcTemplate" ref="namedJdbcTemplate"/>-->
+<!--    </bean>-->
 
 
 </beans>

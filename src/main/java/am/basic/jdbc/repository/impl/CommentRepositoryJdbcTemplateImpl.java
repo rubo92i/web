@@ -3,22 +3,25 @@ package am.basic.jdbc.repository.impl;
 import am.basic.jdbc.mapper.UserMapper;
 import am.basic.jdbc.model.Comment;
 import am.basic.jdbc.repository.CommentRepository;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Data
+@Repository
+@AllArgsConstructor
 public class CommentRepositoryJdbcTemplateImpl implements CommentRepository {
 
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 
     @Override

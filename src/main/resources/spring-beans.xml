@@ -20,4 +20,8 @@
         <constructor-arg name="dataSource" ref="datasource"/>
     </bean>
 
+    <bean name="transactionManager" class="org.springframework.jdbc.support.JdbcTransactionManager">
+        <constructor-arg name="dataSource" ref="datasource"/>
+    </bean>
+
 </beans>

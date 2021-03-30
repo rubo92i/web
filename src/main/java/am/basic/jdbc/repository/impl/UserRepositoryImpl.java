@@ -4,6 +4,8 @@ import am.basic.jdbc.model.User;
 import am.basic.jdbc.repository.UserRepository;
 import am.basic.jdbc.util.DataSource;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +17,8 @@ import java.util.Optional;
 
 
 @Log4j2
+@Primary
+@Repository
 public class UserRepositoryImpl implements UserRepository {
 
 

@@ -2,7 +2,9 @@ package am.basic.jdbc.repository.impl;
 
 import am.basic.jdbc.model.Comment;
 import am.basic.jdbc.repository.CommentRepository;
- import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -13,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Repository
+@AllArgsConstructor
 public class CommentRepositoryImpl implements CommentRepository {
 
 
@@ -27,7 +31,8 @@ public class CommentRepositoryImpl implements CommentRepository {
         System.out.println("CommentRepositoryImpl initialized");
     }
 
-    private DataSource dataSource;
+
+    private final DataSource dataSource;
 
     @Override
     public void add(Comment comment) {

@@ -1,15 +1,17 @@
 package am.basic.jdbc.repository.impl;
 
-import am.basic.jdbc.model.*;
+import am.basic.jdbc.model.Comment;
 import am.basic.jdbc.repository.CommentRepository;
 import am.basic.jdbc.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 
+@Repository
 public class CommentRepositoryHibernateImpl implements CommentRepository {
 
 

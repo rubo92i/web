@@ -8,31 +8,46 @@ import am.basic.jdbc.repository.UserRepository;
 import am.basic.jdbc.service.UserService;
 import am.basic.jdbc.util.Generator;
 import am.basic.jdbc.util.Status;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 
+@Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    // Automatic bean injection
+    // 1. type , searching bean with same type
+    // 2. name , if there is more then one bean with same type, it checks name
+    // 3. Qualifier . Using for change bean default name which is class name with lowerCase and injected bean name which is field name by default
+    // 4. @Primary annotation, which help to choose right bean in ambiguous cases
 
-    private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+     private final UserRepository userRepository;
+
 
 
     @Override
+    @Transactional(rollbackFor = Throwable.class,   // for which exception rollback transaction , default type is RuntimeException
+            noRollbackFor = NotFoundException.class , //  for which exception do not rollback transaction
+            transactionManager = "transactionManager", // transaction manager bean name, default name is  transactionManager
+            isolation = Isolation.READ_COMMITTED // isolation lvl configuration
+    )
     public User signIn(String username, String password) throws NotFoundException, ForbiddenException {
         User user = userRepository.getByUsername(username)
                 .orElseThrow(() -> new NotFoundException("Wrong username or password"));
-        NotFoundException.check( !user.getPassword().equals(password), "Wrong username or password");
+        NotFoundException.check(!user.getPassword().equals(password), "Wrong username or password");
         ForbiddenException.check(user.getStatus() == Status.UNVERIFIED, "Please verify");
         return user;
     }
 
 
-   // @Override
+    // @Override
     public User signInFunctional(String username, String password) throws NotFoundException, ForbiddenException {
         return Optional.ofNullable(
                 userRepository.getByUsername(username)

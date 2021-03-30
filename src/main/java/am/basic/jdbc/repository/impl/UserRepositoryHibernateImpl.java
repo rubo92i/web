@@ -7,12 +7,15 @@ import lombok.Data;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 
 @Data
+@Repository
 public class UserRepositoryHibernateImpl implements UserRepository {
 
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();

@@ -6,7 +6,10 @@ import am.basic.jdbc.repository.RoleRepository;
 import am.basic.jdbc.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
 
+
+@Repository
 public class RoleRepositoryHibernateImpl implements RoleRepository {
 
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
