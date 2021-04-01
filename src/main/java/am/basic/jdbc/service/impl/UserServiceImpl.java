@@ -6,10 +6,11 @@ import am.basic.jdbc.model.excpetion.ForbiddenException;
 import am.basic.jdbc.model.excpetion.NotFoundException;
 import am.basic.jdbc.repository.UserRepository;
 import am.basic.jdbc.service.UserService;
+import am.basic.jdbc.util.CustomMailSender;
 import am.basic.jdbc.util.Generator;
 import am.basic.jdbc.util.Status;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 
 @Service
+@Primary
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -28,13 +30,13 @@ public class UserServiceImpl implements UserService {
     // 4. @Primary annotation, which help to choose right bean in ambiguous cases
 
 
-     private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
-
+    private final CustomMailSender customMailSender;
 
     @Override
     @Transactional(rollbackFor = Throwable.class,   // for which exception rollback transaction , default type is RuntimeException
-            noRollbackFor = NotFoundException.class , //  for which exception do not rollback transaction
+            noRollbackFor = NotFoundException.class, //  for which exception do not rollback transaction
             transactionManager = "transactionManager", // transaction manager bean name, default name is  transactionManager
             isolation = Isolation.READ_COMMITTED // isolation lvl configuration
     )
@@ -66,6 +68,7 @@ public class UserServiceImpl implements UserService {
         user.setStatus(Status.UNVERIFIED);
         user.setCode(Generator.getRandomDigits(5));
         userRepository.add(user);
+        customMailSender.sendMail("Verification", "Your code is " + user.getCode(), user.getUsername());
     }
 
     @Override
@@ -84,6 +87,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NotFoundException("Wrong username or password"));
         user.setCode(Generator.getRandomDigits(5));
         userRepository.update(user);
+        customMailSender.sendMail("Verification", "Your code is " + user.getCode(), user.getUsername());
     }
 
     @Override

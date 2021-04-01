@@ -6,6 +6,7 @@ import am.basic.jdbc.model.User;
 import am.basic.jdbc.repository.impl.CommentRepositoryImpl;
 import am.basic.jdbc.service.CommentService;
 import am.basic.jdbc.service.impl.CommentServiceImpl;
+import am.basic.jdbc.util.ContextInitializer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +19,7 @@ import java.util.List;
 @WebServlet("/secure/comments")
 public class CommentServlet extends HttpServlet {
 
-    private final CommentService commentService = new CommentServiceImpl( );
+    private final CommentService commentService = ContextInitializer.applicationContext.getBean(CommentService.class);
 
 
     @Override

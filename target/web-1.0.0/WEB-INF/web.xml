@@ -10,6 +10,9 @@
         <welcome-file>start</welcome-file>
     </welcome-file-list>
 
+    <listener>
+        <listener-class>am.basic.jdbc.util.ContextInitializer</listener-class>
+    </listener>
 
 
     <!--HelloServlet configurations-->

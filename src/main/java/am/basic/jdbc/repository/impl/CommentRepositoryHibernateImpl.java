@@ -6,17 +6,34 @@ import am.basic.jdbc.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.List;
 
 
+@Lazy(false) // this is for configuring bean creation
 @Repository
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) // configuring bean scope singleton or prototype
 public class CommentRepositoryHibernateImpl implements CommentRepository {
 
 
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
+    @PostConstruct // methods which are annotated with this annotation will be invoked by spring framework after bean is created
+    public void init(){
+        System.out.println("init");
+    }
+
+
+    @PreDestroy // methods which are annotated with this annotation will be invoked by spring framework before bean is destroyed
+    public void destroy(){
+        System.out.println("init");
+    }
 
     @Override
     public void add(Comment comment) {

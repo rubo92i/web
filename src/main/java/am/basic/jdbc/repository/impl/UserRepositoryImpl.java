@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Log4j2
 @Primary
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -39,11 +38,9 @@ public class UserRepositoryImpl implements UserRepository {
             pstmt.setString(6, user.getCode());
             int result = pstmt.executeUpdate();
 
-            log.error("query was executed {} rows were affected", result);
-            pstmt.close();
+             pstmt.close();
         } catch (SQLException exception) {
-            log.error("Add user failed with reason {}", exception.getMessage());
-        }
+         }
     }
 
     @Override
@@ -61,11 +58,9 @@ public class UserRepositoryImpl implements UserRepository {
             pstmt.setLong(7, user.getId());
             int result = pstmt.executeUpdate();
 
-            log.error("query was executed {} rows were affected", result);
-            pstmt.close();
+             pstmt.close();
         } catch (SQLException exception) {
-            log.error("Add user failed with reason {}", exception.getMessage());
-        }
+         }
     }
 
     @Override

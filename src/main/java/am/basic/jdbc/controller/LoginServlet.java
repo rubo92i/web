@@ -7,6 +7,7 @@ import am.basic.jdbc.model.excpetion.NotFoundException;
 import am.basic.jdbc.repository.impl.UserRepositoryHibernateImpl;
 import am.basic.jdbc.service.UserService;
 import am.basic.jdbc.service.impl.UserServiceImpl;
+import am.basic.jdbc.util.ContextInitializer;
 import am.basic.jdbc.util.CookieUtil;
 import am.basic.jdbc.util.Encryption;
 
@@ -20,7 +21,7 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    private final UserService userService = new UserServiceImpl(new UserRepositoryHibernateImpl());
+    private final UserService userService = ContextInitializer.applicationContext.getBean(UserService.class);
 
 
     @Override
