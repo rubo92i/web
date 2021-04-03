@@ -18,7 +18,7 @@
     <input type="submit" name="Sign in" value="Sign in">
 </form>
 
-<a href="/sign-up.jsp">Sign Up</a>
+<a href="/go-to-sign-up">Sign Up</a>
 
 </body>
 </html>
