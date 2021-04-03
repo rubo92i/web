@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ page import="am.basic.jdbc.util.JspUtils" %><%--
   Created by IntelliJ IDEA.
   User: ruben.manukyan
@@ -12,23 +13,23 @@
 </head>
 <body>
 
-<h1 style="color: red">
-    <%=JspUtils.getAttribute(request, response, "message")%>
-</h1>
 
 
-    <form method="post" action="/verify">
-Verification Code <input type="text" name="code"><br>
-                  <input type="hidden" name="username" value="<%=request.getAttribute("username")%>">
-                  <input type="submit" name="Verify" value="Verify">
-    </form>
+<h1 style="color: red">${message}</h1>
+
+
+<form method="post" action="/verify">
+    Verification Code <input type="text" name="code"><br>
+    <input type="hidden" name="username" value="${username}">
+    <input type="submit" name="Verify" value="Verify">
+</form>
 
 
 <br>
 
 <form method="post" action="/resend">
-    <input type="hidden" name="username" value="<%=request.getAttribute("username")%>">
-    <input type="submit" name="Resend"  value="Resend">
+    <input type="hidden" name="username" value="${username}">
+    <input type="submit" name="Resend" value="Resend">
 </form>
 </body>
 </html>

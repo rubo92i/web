@@ -7,9 +7,8 @@
 </head>
 <body>
 
-<h1 style="color: red">
-    <%=JspUtils.getAttribute(request, response, "message")%>
-</h1>
+<h1 style="color: red">${message}</h1>
+
 
 <form action="/login" method="post">
     Username <input type="text" name="user-i-name"> <br/>

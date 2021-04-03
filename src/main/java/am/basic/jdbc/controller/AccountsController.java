@@ -10,10 +10,8 @@ import am.basic.jdbc.util.CookieUtil;
 import am.basic.jdbc.util.Encryption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +45,8 @@ public class AccountsController {
     }
 
 
-    @RequestMapping("/login")
+    @PostMapping("/login")
+    //@RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView login(@RequestParam(name = "user-i-name") String username,  //this part is get request parameters automatically, if one of parameter not exist it return 400 BAD REQUEST
                               @RequestParam(name = "user-i-pass") String password,
                               @RequestParam(required = false) String remember,  // in this case request param name and field name are same, and we can  miss parameter name in annotation, here we set required false, as it can be not sent;
@@ -64,7 +63,7 @@ public class AccountsController {
             return new ModelAndView("index", "message", exception.getMessage());  // this is forward to mentioned jsp with adding attribute to request, which name and value are 2-nd and 3-th params in constructor
 
         } catch (ForbiddenException e) {
-            return new ModelAndView("index")
+            return new ModelAndView("verification")
                     .addObject("message", "Please verify")
                     .addObject("username", username);   // this is helpful in that cases when we have more then 1 attribute to forward
 
@@ -76,10 +75,11 @@ public class AccountsController {
 
 
     @RequestMapping("/sign-up")
-    public ModelAndView signUp(@RequestParam String name,
-                               @RequestParam String surname,
-                               @RequestParam String username,
-                               @RequestParam String password) {
+    public String signUp(@RequestParam String name,
+                         @RequestParam String surname,
+                         @RequestParam String username,
+                         @RequestParam String password,
+                          Model model) {
 
         User user = new User();
         user.setName(name);
@@ -88,14 +88,15 @@ public class AccountsController {
         user.setPassword(password);
         try {
             userService.signUp(user);
-            return new ModelAndView("verification")
-                    .addObject("username", username)
-                    .addObject("message", "You have successfully registered, please verify");
+            model.addAttribute("username", username);
+            model.addAttribute("message", "You have successfully registered, please verify");
+            return "verification";
         } catch (DuplicateDataException duplicateDataException) {
-            return new ModelAndView("sign-up", "message", "User with such username already exists");
+            model.addAttribute("message", "User with such username already exists");
         } catch (RuntimeException throwable) {
-            return new ModelAndView("index", "message", "Something went wrong , please try later");
+            model.addAttribute("message", "Something went wrong , please try later");
         }
+        return "sign-up";
     }
 
 
@@ -137,7 +138,6 @@ public class AccountsController {
     }
 
 
-
     @RequestMapping("/logout")
     public String logout(HttpSession session, HttpServletResponse resp) {
         CookieUtil.deleteCookie("username", resp);
@@ -145,8 +145,6 @@ public class AccountsController {
         session.invalidate();
         return "index";
     }
-
-
 
 
     private void checkRememberMe(String username, String password, String remember, HttpServletResponse resp) {
