@@ -1,4 +1,4 @@
-package am.basic.jdbc;
+package am.basic.jdbc.aold;
 
 import am.basic.jdbc.model.Role;
 import am.basic.jdbc.model.excpetion.ForbiddenException;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class SpringMain {
+public class SpringMainOld {
 
 
     public static void main(String[] args) throws NotFoundException, ForbiddenException {

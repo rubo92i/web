@@ -3,7 +3,6 @@ package am.basic.jdbc.repository.impl;
 import am.basic.jdbc.model.User;
 import am.basic.jdbc.repository.UserRepository;
 import lombok.Data;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +44,7 @@ public class UserRepositorySpringHibernateImpl implements UserRepository {
 
     @Override
     public User getById(long id) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.get(User.class, id);
+        return sessionFactory.getCurrentSession().get(User.class, id);
     }
 
 

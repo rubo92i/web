@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/data/jpa https://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+
+    <jpa:repositories base-package="am.basic.jdbc.repository" entity-manager-factory-ref="entityManager"/>
 
 
     <bean name="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -20,14 +23,35 @@
         <constructor-arg name="dataSource" ref="datasource"/>
     </bean>
 
-    <bean name="transactionManager" class="org.springframework.jdbc.support.JdbcTransactionManager">
+    <bean name="transactionManager2" class="org.springframework.jdbc.support.JdbcTransactionManager">
         <constructor-arg name="dataSource" ref="datasource"/>
     </bean>
 
 
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManager" />
+    </bean>
+
+    <bean id="entityManager" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="datasource" />
+        <property name="packagesToScan" value="am.basic.jdbc.model"/> <!-- path to our annotated classes(entities)-->
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.format_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+
+
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-        <property name="dataSource"
-                  ref="datasource"/>  <!--ref to our datasource which contains database connection details-->
+        <property name="dataSource" ref="datasource"/>  <!--ref to our datasource which contains database connection details-->
         <property name="packagesToScan" value="am.basic.jdbc.model"/> <!-- path to our annotated classes(entities)-->
         <property name="hibernateProperties">
             <props>
@@ -37,6 +61,7 @@
             </props>
         </property>
     </bean>
+
 
 
     <bean name="txManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
