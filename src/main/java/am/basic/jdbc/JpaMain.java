@@ -12,6 +12,9 @@ public class JpaMain {
 
 
     public static void main(String[] args) {
+
+
+
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application-context.xml");
 
         UserRepositoryJpa userRepositoryJpa = applicationContext.getBean(UserRepositoryJpa.class);
